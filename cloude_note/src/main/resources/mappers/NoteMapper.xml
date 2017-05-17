@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+ <mapper namespace="com.tedu.cloudnote.dao.NoteDao">
+ 	<select id="findByNoteBookId"
+		parameterType="string" 
+		resultType="map">
+		SELECT  
+		cn_note_id,
+		cn_note_title
+		FROM cn_note
+		WHERE cn_notebook_id=#{cn_notebook_id}
+	</select>
+	<select id="findNoteBody"
+		parameterType="string" 
+		resultType="com.tedu.cloudnote.entity.Note">
+		SELECT  
+		cn_note_body,
+		cn_note_title
+		FROM cn_note
+		WHERE cn_note_id=#{cn_note_id}
+	</select>
+	<update id="saveNote"
+		parameterType="com.tedu.cloudnote.entity.Note">
+		UPDATE  cn_note
+		<set> 
+		<if test="cn_notebook_id != null and cn_notebook_id != ''">
+			cn_notebook_id = #{cn_notebook_id},
+		</if>
+		<if test="cn_user_id != null and cn_user_id != ''">
+			cn_user_id = #{cn_user_id},
+		</if>
+		<if test="cn_note_status_id != null and cn_note_status_id != ''">
+			cn_note_status_id = #{cn_note_status_id},
+		</if>
+		<if test="cn_note_type_id != null and cn_note_type_id != ''">
+			cn_note_type_id = #{cn_note_type_id},
+		</if>
+		<if test="cn_note_title != null and cn_note_title != ''">
+			cn_note_title = #{cn_note_title},
+		</if>
+		<if test="cn_note_body != null and cn_note_body != ''">
+			cn_note_body = #{cn_note_body},
+		</if>
+		<if test="cn_note_create_time != null and cn_note_create_time != ''">
+			cn_note_create_time = #{cn_note_create_time},
+		</if>
+		<if test="cn_note_last_modify_time != null and cn_note_last_modify_time != ''">
+			cn_note_last_modify_time = #{cn_note_last_modify_time},
+		</if>
+		</set>
+			 where cn_note_id = #{cn_note_id}
+	</update>
+ </mapper>
