@@ -28,8 +28,18 @@ public interface NoteService {
 	 * @param noteId 笔记的id
 	 * @param noteTitle 要保存笔记的标题
 	 * @param noteBody 要保存笔记的内容
-	 * @return 受影响的记录
+	 * @return JSON
 	 * 
 	 */
 	public NoteResult saveNote(String noteId,String noteTitle,String noteBody);
+	
+	/**
+	 * 添加笔记
+	 * @param noteBookId
+	 * @param noteId
+	 * @param noteTitle
+	 * @param userId
+	 * @return JSON
+	 */
+	public NoteResult addNote(String noteBookId,String noteTitle,String userId);
 }

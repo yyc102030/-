@@ -45,27 +45,35 @@
     				//得动态绑定
     			$("#can").on("click",".cancel,.close",closeAlertWindow);
     			//7.添加笔记本
-    			$("#can").on("click","#addNoteBook",function(){
-    				//获取参数 noteBookName
-    				var noteBookName=$("#input_notebook").val();
-    				var user_id=getCookie("user_id");
-    				$.ajax({
-    					url:"/cloude_note/notebook/addnotebook.do",
-    					type:"post",
-    					data:{"noteBookName":noteBookName,"user_id":user_id},
-    					dataType:"json",
-    					success:function(result){
-    						if(result.status==0){
-    							//添加成功
-    							//更新笔记本列表
-    							
-    						}
-    					},
-    					error:function(){
-    						alert("添加异常");
-    					}
-    				});
-    			});
+    			$("#can").on("click","#addNoteBook",addNoteBook);
+    			//8.添加笔记
+    				var $li;
+					var noteBookId;
+					//当笔记本没有选中时
+					//点击添加笔记时，会弹出提示框
+					$("#add_note").click(chooseAlert);
+					$("#can").on("click","#addnote",addNote);
+					var flag=1;//用来实现点击按钮弹出菜单，再点击关闭
+				//9.实现笔记的管理菜单
+				$("#note_ul").on("click",".btn_slide_down",function(){
+					flag++;
+					//隐藏所有的笔记菜单
+					$("#note_ul div").hide();
+					 //设置点击笔记选中效果
+					/* $("note_ul a").removeClass("clicked");
+					$(this).parent().addClass("clicked"); */
+					//显示点击的笔记菜单
+					if(flag%2==0){
+						var $menu=$(this).parent().next();
+						$menu.slideDown(1000);						
+						//阻止事件向li,body冒泡
+						return false;
+					}
+				//10.点击页面隐藏笔记菜单
+				$("body").click(function(){
+					$("#note_ul div").hide();
+				});
+				});
     		});
     	</script>
     </head>

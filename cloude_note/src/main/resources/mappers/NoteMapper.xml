@@ -51,4 +51,27 @@
 		</set>
 			 where cn_note_id = #{cn_note_id}
 	</update>
+	<insert id="addNote"
+		parameterType="com.tedu.cloudnote.entity.Note">
+	INSERT INTO  cn_note(
+		cn_note_id,
+		cn_notebook_id,
+		cn_user_id,
+		cn_note_status_id,
+		cn_note_type_id,
+		cn_note_title,
+		cn_note_body,
+		cn_note_create_time,
+		cn_note_last_modify_time) VALUES (
+		#{cn_note_id},
+		#{cn_notebook_id},
+		#{cn_user_id},
+		#{cn_note_status_id},
+		#{cn_note_type_id},
+		#{cn_note_title},
+		#{cn_note_body},
+		#{cn_note_create_time},
+		#{cn_note_last_modify_time}
+			) 
+	</insert>
  </mapper>

@@ -1,4 +1,28 @@
 //封装笔记相关的操作功能
+//添加笔记
+function addNote(){
+	//获取请求参数
+	var userId=getCookie("user_id");
+	var noteTitle=$("#input_note").val();
+ 	alert("userId:"+userId+",noteTitle:"+noteTitle+",noteBookId:"+noteBookId);
+ 	$.ajax({
+		url:"/cloude_note/note/addnote.do",
+		type:"post",
+		data:{"userId":userId,"noteTitle":noteTitle,"noteBookId":noteBookId},
+		dataType:"json",
+		success:function(result){
+			if(result.status==0){
+				alert("添加笔记成功");	    							
+			}else{
+				alert("添加笔记失败");
+			}
+		},
+		error:function(){
+			alert("添加异常");
+		}
+	});
+}
+
 //保存笔记
 function updateNote(){
 		//获取请求参数noteId,noteTitle,noteBody

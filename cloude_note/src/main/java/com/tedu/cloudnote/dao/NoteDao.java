@@ -35,4 +35,11 @@ public interface NoteDao {
 	 * @return 保存成功返回1
 	 */
 	public int saveNote(Note note);
+	
+	/**
+	 * 增添加笔记
+	 * @param note 
+	 * @return 返回处理的结果
+	 */
+	public int addNote(Note note);
 }

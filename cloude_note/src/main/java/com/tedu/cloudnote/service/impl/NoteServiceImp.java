@@ -2,6 +2,7 @@ package com.tedu.cloudnote.service.impl;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 
@@ -96,6 +97,38 @@ public class NoteServiceImp implements NoteService{
 			result.setMsg("保存成功");
 			return result;
 		}
+	}
+
+	/**
+	 * 添加笔记
+	 * @param noteBookId
+	 * @param noteId
+	 * @param noteTitle
+	 * @param userId
+	 * @return JSON
+	 */
+	public NoteResult addNote(String noteBookId,String noteTitle, String userId) {
+		NoteResult result=new NoteResult();
+		Note note=new Note();
+		note.setCn_note_body("");
+		note.setCn_note_create_time(System.currentTimeMillis());
+		note.setCn_note_id(UUID.randomUUID().toString());
+		note.setCn_note_last_modify_time(System.currentTimeMillis());
+		note.setCn_note_status_id("1");
+		note.setCn_note_title(noteTitle);
+		note.setCn_note_type_id("");
+		note.setCn_notebook_id(noteBookId);
+		note.setCn_user_id(userId);
+		int rows=notedao.addNote(note);
+		if(rows==0){
+			result.setStatus(1);
+			result.setMsg("添加笔记失败");
+		}else{
+			result.setStatus(0);
+			result.setMsg("添加笔记成功");
+			result.setData(note);
+		}
+		return result;
 	}
 
 }

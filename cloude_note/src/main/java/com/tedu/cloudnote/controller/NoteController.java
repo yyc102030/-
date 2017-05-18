@@ -59,4 +59,19 @@ public class NoteController {
 		NoteResult result=noteservice.saveNote(noteId, noteTitle, noteBody);
 		return result;	
 	}
+	
+	/**
+	 * 添加笔记控制器
+	 * @param noteBookId 笔记本id
+	 * @param noteId 笔记id
+	 * @param noteTitle 笔记标题
+	 * @param userId 用户id
+	 * @return JSON 返回JSON数据类型
+	 */
+	@RequestMapping("/addnote.do")
+	@ResponseBody
+	public NoteResult addNote(String noteBookId, String noteTitle, String userId){
+		NoteResult result=noteservice.addNote(noteBookId, noteTitle, userId);
+		return result;	
+	};
 }
