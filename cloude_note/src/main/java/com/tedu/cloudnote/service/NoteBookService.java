@@ -15,4 +15,12 @@ public interface NoteBookService {
 	 * @return 笔记本列表
 	 */
 	public NoteResult loadUserNoteBooks(String user_id);
+	
+	/**
+	 * 添加笔记本
+	 * @param noteBookName 笔记本名字
+	 * @param user_id 用户id
+	 * @return
+	 */
+	public NoteResult addNoteBook(String noteBookName,String user_id);
 }

@@ -13,6 +13,7 @@ function alertAddNoteBookWindow(){
 		$("#can").load(
 				"alert/alert_notebook.html");
 		$(".opacity_bg").show();
+		
 }
 
 //关闭对话框

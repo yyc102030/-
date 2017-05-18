@@ -15,12 +15,19 @@ import com.tedu.cloudnote.util.NoteResult;
  *
  */
 @Controller
-@RequestMapping("/book")
+@RequestMapping("/notebook")
 public class NoteBookController {
+	
 	
 	@Resource(name="notebookservice")
 	private NoteBookService notebookservice;
 	
+	
+	/**
+	 * 根据用户id加载用户的笔记本
+	 * @param user_id 用户id
+	 * @return JSON
+	 */
 	@RequestMapping("/loadbooks.do")
 	@ResponseBody
 	public NoteResult loadUserNoteBooks(String user_id){
@@ -28,6 +35,19 @@ public class NoteBookController {
 		NoteResult result=
 				notebookservice.loadUserNoteBooks(user_id);
 		System.out.println(result);
+		return result;	
+	}
+	
+	/**
+	 * 添加笔记本
+	 * @param noteBookName 笔记本名字
+	 * @param user_id 用户id
+	 * @return
+	 */
+	@RequestMapping("/addnotebook.do")
+	@ResponseBody
+	public NoteResult addNoteBook(String noteBookName, String user_id){
+		NoteResult result=notebookservice.addNoteBook(noteBookName, user_id);
 		return result;	
 	}
 }

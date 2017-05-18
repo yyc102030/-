@@ -10,7 +10,7 @@ function loadUserNoteBooks(){
 	if(user_id!=null){
 		//发送Ajax请求
 		$.ajax({
-			url:"book/loadbooks.do",
+			url:"notebook/loadbooks.do",
 			type:"post",
 			data:{"user_id":user_id},
 			dataType:"json",

@@ -1,7 +1,10 @@
 package com.tedu.cloudnote.service.impl;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 
@@ -43,6 +46,34 @@ public class NoteBookServiceImp implements NoteBookService{
 			result.setData(list);
 			return result;
 		}
+	}
+
+	/**
+	 * 添加笔记本的实现类
+	 * @param noteBookName 笔记本名字
+	 * @param user_id 用户id
+	 * @return
+	 */
+	public NoteResult addNoteBook(String noteBookName, String user_id) {
+		NoteBook noteBook=new NoteBook();
+		NoteResult result=new NoteResult();
+		noteBook.setCn_notebook_id(UUID.randomUUID().toString());
+		noteBook.setCn_notebook_name(noteBookName);
+		noteBook.setCn_user_id(user_id);
+		noteBook.setCn_notebook_createtime(new Timestamp(System.currentTimeMillis()));
+		noteBook.setCn_notebook_desc("");
+		noteBook.setCn_notebook_type_id("1");
+		int rows=notebookdao.addNoteBook(noteBook);
+		if(rows==1){
+			//添加成功
+			result.setStatus(0);
+			result.setMsg("添加笔记本成功");
+			result.setData(noteBook);
+		}else{
+			result.setStatus(1);
+			result.setMsg("添加笔记本失败");
+		}
+		return result;
 	}
 
 }
