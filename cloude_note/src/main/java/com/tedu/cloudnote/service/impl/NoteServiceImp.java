@@ -9,7 +9,9 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.tedu.cloudnote.dao.NoteDao;
+import com.tedu.cloudnote.dao.ShareNoteDao;
 import com.tedu.cloudnote.entity.Note;
+import com.tedu.cloudnote.entity.ShareNote;
 import com.tedu.cloudnote.service.NoteService;
 import com.tedu.cloudnote.util.NoteResult;
 /**
@@ -23,6 +25,8 @@ public class NoteServiceImp implements NoteService{
 	@Resource(name="notedao")
 	private NoteDao notedao;
 	
+	@Resource(name="sharenotedao")
+	private ShareNoteDao sharenotedao;
 	
 	/**
 	 * 根据笔记本id查询所有的笔记
@@ -32,7 +36,13 @@ public class NoteServiceImp implements NoteService{
 	public NoteResult findNotes(String notebook_id) {
 		List<Map<String,Object>> list=
 				notedao.findByNoteBookId(notebook_id);
-		System.out.println(list);
+		System.out.println("list:"+list);
+		for(int i=0;i<list.size();i++){
+			if(list.get(i).get("cn_note_type_id")==null){
+				list.get(i).replace("cn_note_type_id", "");
+			}
+		}
+		System.out.println("list:"+list);
 		NoteResult result=new NoteResult();
 		if(list.isEmpty()){
 			//查询失败
@@ -169,6 +179,65 @@ public class NoteServiceImp implements NoteService{
 			result.setStatus(0);
 			result.setMsg("删除成功！!");
 		}
+		return result;
+	}
+
+	/**
+	 * 移动笔记
+	 * @param noteId
+	 * @param noteBookId
+	 * @return JSON
+	 */
+	public NoteResult moveNote(String noteId, String noteBookId) {
+		NoteResult result=new NoteResult();
+		Note note=new Note();
+		note.setCn_note_id(noteId);
+		note.setCn_notebook_id(noteBookId);
+		int rows=notedao.moveNote(note);
+		if(rows==0){
+			//移动笔记失败
+			result.setStatus(1);
+			result.setMsg("移动笔记失败！");
+		}else{
+			//移动笔记成功
+			result.setStatus(0);
+			result.setMsg("移动笔记成功！");	
+		}
+		return result;
+	}
+
+	/**
+	 * 分享笔记
+	 * @param noteId
+	 * @return JSON
+	 */
+	public NoteResult shareNote(String noteId) {
+		NoteResult result=new NoteResult();
+		//根据noteId查询出笔记的全部内容
+		Note note=notedao.findAllByNoteId(noteId);
+		System.out.println("note:"+note);
+		ShareNote sNote=new ShareNote();
+		sNote.setCn_note_id(note.getCn_note_id());
+		sNote.setCn_share_body(note.getCn_note_body());
+		sNote.setCn_share_id(UUID.randomUUID().toString());
+		sNote.setCn_share_title(note.getCn_note_title());
+		System.out.println("sNote:"+sNote);
+		int rows =sharenotedao.saveNote(sNote);
+		System.out.println("!!!!!!!!!!!!!!!!!!!rows:"+rows);
+		if(rows!=0){
+			//保存成功,更新cn_note表中的typeId
+			int rowNote=notedao.updateTypeId(noteId);
+			System.out.println("rowNote:"+rowNote);
+			if(rowNote!=0){
+				//更新成功，也就意味着分享成功
+				result.setStatus(0);
+				result.setMsg("分享成功！");
+			}else{
+				result.setStatus(1);
+				result.setMsg("分享失败！");
+			}
+		}
+		
 		return result;
 	}
 

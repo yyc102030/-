@@ -2,12 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
  "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
  <mapper namespace="com.tedu.cloudnote.dao.NoteDao">
+ 	<select  id="findAllByNoteId"
+ 		parameterType="string" 
+ 		resultType="com.tedu.cloudnote.entity.Note">
+ 		select * from cn_note where cn_note_id=#{cn_note_id}
+ 	</select>
  	<select id="findByNoteBookId"
 		parameterType="string" 
 		resultType="map">
 		SELECT  
 		cn_note_id,
-		cn_note_title
+		cn_note_title,
+		cn_note_type_id
 		FROM cn_note
 		WHERE cn_notebook_id=#{cn_notebook_id} AND cn_note_status_id="1"
 	</select>
@@ -87,4 +93,45 @@
 			parameterType="string" >
 		delete from cn_note where cn_note_id  = #{cn_note_id} 
 	</delete>
+	
+	<!-- 移动笔记 -->
+	<update id="moveNote"
+		parameterType="com.tedu.cloudnote.entity.Note" >
+		UPDATE  cn_note
+		<set> 
+		<if test="cn_notebook_id != null and cn_notebook_id != ''">
+			cn_notebook_id = #{cn_notebook_id},
+		</if>
+		<if test="cn_user_id != null and cn_user_id != ''">
+			cn_user_id = #{cn_user_id},
+		</if>
+		<if test="cn_note_status_id != null and cn_note_status_id != ''">
+			cn_note_status_id = #{cn_note_status_id},
+		</if>
+		<if test="cn_note_type_id != null and cn_note_type_id != ''">
+			cn_note_type_id = #{cn_note_type_id},
+		</if>
+		<if test="cn_note_title != null and cn_note_title != ''">
+			cn_note_title = #{cn_note_title},
+		</if>
+		<if test="cn_note_body != null and cn_note_body != ''">
+			cn_note_body = #{cn_note_body},
+		</if>
+		<if test="cn_note_create_time != null and cn_note_create_time != ''">
+			cn_note_create_time = #{cn_note_create_time},
+		</if>
+		<if test="cn_note_last_modify_time != null and cn_note_last_modify_time != ''">
+			cn_note_last_modify_time = #{cn_note_last_modify_time},
+		</if>
+		</set>
+			 where cn_note_id = #{cn_note_id}		
+	</update>
+	
+	<!-- 分享笔记时，需要将 cn_note_type_id的值改为1-->
+	<update id="updateTypeId"
+		parameterType="string" >
+		UPDATE  cn_note
+		set cn_note_type_id ="1"
+		where cn_note_id = #{cn_note_id}		
+	</update>
  </mapper>

@@ -1,7 +1,107 @@
 //封装笔记相关的操作功能
 
-//将笔记删除到回收
+//分享笔记
+function shareNote(){
+	//获取请求参数
+	var $li=$("#note_ul a.checked").parent();
+	var noteId=$li.data("noteId");
+	//发送Ajax请求
+	$.ajax({
+		url:"/cloude_note/note/sharenote.do",
+		type:"post",
+		data:{"noteId":noteId},
+		dataType:"json",
+		success:function(result){
+			if(result.status==0){
+				//分享成功
+				alert(result.msg);
+				$li.find(".btn_slide_down").before("<span class='glyphicon glyphicon-eye-open'></span>");
+			}
+		},
+		error:function(){
+			alert("分享过程中发生了点意外！");
+		}
+	});
+}
 
+//移动笔记
+function moveNote(){
+	//获取请求参数
+	var $li=$("#note_ul a.checked").parent();
+	var noteId=$li.data("noteId");
+	var noteBookId=$("#moveSelect").val();
+	console.log(noteId+","+noteBookId);
+	//发送ajax请求
+	$.ajax({
+		url:"/cloude_note/note/movenote.do",
+		type:"post",
+		data:{"noteId":noteId,"noteBookId":noteBookId},
+		dataType:"json",
+		success:function(result){
+			if(result.status==0){
+				$li.remove();
+				//移动成功
+				alert(result.msg);								
+			}else{
+				//移动失败
+				alert(result.msg);
+			}
+		},
+		error:function(){
+			alert("移动笔记异常");
+		}
+	});
+}
+
+//弹出移动笔记提示框
+function alertMoveNote(){
+	//弹出移动笔记的对话框
+	 $("#can").load(
+	"alert/alert_move.html",function(){
+		//获取笔记本id，在select下面添加option						
+		//获取笔记本列表的li元素
+		var notebooks=$("#notebooks li");
+		//便利li，提取出noteBookId和noteBookName
+		for(var i=0;i<notebooks.length;i++){
+			var $li=$(notebooks[i]);//将每一个li转换成Jquery对象
+			var noteBookId=$li.data("noteBookId");//获取笔记本id
+			var noteBookName=$li.text().trim();//获取笔记本的name
+			//添加到select元素下面
+			var sport="";
+			sport+="<option value="+noteBookId+">";
+			sport+=noteBookName+"</option>";
+			$("#moveSelect").append(sport);
+		}
+	});
+	$(".opacity_bg").show();
+}
+
+//将笔记删除到回收
+function rallBackNote(){
+	$("#can").load(
+	"alert/alert_delete_note.html");
+	$(".opacity_bg").show();
+	var $li=$("#note_ul a.checked").parent();
+	var noteId=$li.data("noteId");
+	console.log(noteId);
+	$("#can").on("click","#deleteNote",function(){
+		//获取请求参数
+		$.ajax({
+			url:"/cloude_note/note/rallbacknote.do",
+			type:"post",
+			data:{"noteId":noteId},
+			dataType:"json",
+			success:function(result){
+				if(result.status==0){
+					alert(result.msg);
+				}
+			},
+			error:function(){
+				alert("删除异常!请稍后再试");
+			}
+		});
+	});
+}
 //添加笔记
 function addNote(){
 	//获取请求参数
@@ -131,17 +231,25 @@ function loadBookNotes(){
 				for(var i=0;i<notes.length;i++){
 					var noteTitle=notes[i].cn_note_title;
 					var noteId=notes[i].cn_note_id;
+					var noteTypeId=notes[i].cn_note_type_id;
+					console.log(noteTypeId);
 					var sli="";
 					sli+="<li class='online'>";
 					sli+="<a>";
 					sli+="<i class='fa fa-file-text-o' title='online' rel='tooltip-bottom'></i>";
 					sli+=""+noteTitle;
+					if(noteTypeId=="1"){
+						sli+="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='glyphicon glyphicon-eye-open'></span>";
+					}
 					sli+="<button type='button' class='btn btn-default btn-xs btn_position btn_slide_down'><i class='fa fa-chevron-down'></i></button>";
 					sli+="</a>";
 					sli+="<div class='note_menu' tabindex='-1'>";
 					sli+="<dl>";
-					sli+="<dt><button type='button' class='btn btn-default btn-xs btn_move' title='移动至...'><i class='fa fa-random'></i></button></dt>";
-					sli+="<dt><button type='button' class='btn btn-default btn-xs btn_share' title='分享'><i class='fa fa-sitemap'></i></button></dt>";
+					sli+="<dt><button id='moveNote' type='button' class='btn btn-default btn-xs btn_move' title='移动至...'><i class='fa fa-random'></i></button></dt>";
+					if(noteTypeId!="1"){
+					//改笔记为没有分享过的,分享过的笔记就隐藏分享按钮
+					sli+="<dt><button type='button' class='btn btn-default btn-xs btn_share' title='分享'><i class='fa fa-sitemap'></i></button></dt>";	
+					}
 					sli+="<dt><button type='button' class='btn btn-default btn-xs btn_delete' title='删除'><i class='fa fa-times'></i></button></dt>";
 					sli+="</dl>";
 					sli+="</div>";

@@ -57,4 +57,26 @@ public interface NoteDao {
 	 * @return 被影响的记录
 	 */
 	public int deleteNote(String noteId);
+	
+	/**
+	 * 移动笔记
+	 * @param noteId 
+	 * @param noteBookId
+	 * @return 移动的结果
+	 */
+	public int moveNote(Note note);
+	
+	/**
+	 * 根据笔记的id,查询该笔记的所有内容
+	 * @param noteId
+	 * @return Note 笔记
+	 */
+	public Note findAllByNoteId(String noteId);
+	
+	/**
+	 * 分享笔记时，需要将note_type
+	 * @param noteId
+	 * @return 处理的结果 1代表成功
+	 */
+	public int updateTypeId(String noteId);
 }

@@ -1,6 +1,5 @@
 package com.tedu.cloudnote.util;
 
-import java.io.File;
 //JDBC读取数据库元数据,生成JAVA实体类
 import java.io.FileWriter;
 import java.io.IOException;
@@ -28,8 +27,8 @@ public class GenEntityTool_Mysql_MybatisSQL {
 		String databaseName = "cloud_note";// mysql数据库名称
 		String user = "root"; // 数据库连接用户名
 		String password = "root"; // 数据库连接密码
-		String tableName = "cn_note"; // 要生成实体类的数据库表名（数据库中表名称）
-		String entityName = "Note";// 要生成实体类的表名 【Java类名】
+		String tableName = "cn_share"; // 要生成实体类的数据库表名（数据库中表名称）
+		String entityName = "ShareNote";// 要生成实体类的表名 【Java类名】
 		String driverClassName = "com.mysql.jdbc.Driver";
 		String url = "jdbc:mysql://localhost:3306/" + databaseName + "?characterEncoding=utf8";// //
 		new GenEntityTool_Mysql_MybatisSQL(driverClassName, url, user, password, tableName, entityName);

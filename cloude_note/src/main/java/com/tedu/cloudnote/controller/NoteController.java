@@ -100,4 +100,29 @@ public class NoteController {
 		NoteResult result=noteservice.deleteNote(noteId);
 		return result;		
 	}
+	
+	/**
+	 * 移动笔记的控制器
+	 * @param noteId
+	 * @param noteBookId
+	 * @return JSON
+	 */
+	@RequestMapping("/movenote.do")
+	@ResponseBody
+	public NoteResult moveNote(String noteId,String noteBookId){
+		NoteResult result=noteservice.moveNote(noteId, noteBookId);
+		return result;
+	}
+	
+	/**
+	 * 分享笔记
+	 * @param noteId
+	 * @return JSON
+	 */
+	@RequestMapping("/sharenote.do")
+	@ResponseBody
+	public NoteResult shareNote(String noteId){
+		NoteResult result=noteservice.shareNote(noteId);
+		return result;	
+	}
 }
