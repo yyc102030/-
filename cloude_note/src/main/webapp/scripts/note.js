@@ -1,10 +1,18 @@
 //封装笔记相关的操作功能
+
+//将笔记删除到回收
+
 //添加笔记
 function addNote(){
 	//获取请求参数
 	var userId=getCookie("user_id");
 	var noteTitle=$("#input_note").val();
- 	alert("userId:"+userId+",noteTitle:"+noteTitle+",noteBookId:"+noteBookId);
+	//参数格式检查
+	if(noteTitle==""){
+		alert("笔记的名字不能为空!");
+		return;
+	}
+ /*	alert("userId:"+userId+",noteTitle:"+noteTitle+",noteBookId:"+noteBookId);*/
  	$.ajax({
 		url:"/cloude_note/note/addnote.do",
 		type:"post",

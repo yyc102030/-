@@ -1,6 +1,5 @@
 package com.tedu.cloudnote.service;
 
-import com.tedu.cloudnote.entity.Note;
 import com.tedu.cloudnote.util.NoteResult;
 
 /**
@@ -42,4 +41,19 @@ public interface NoteService {
 	 * @return JSON
 	 */
 	public NoteResult addNote(String noteBookId,String noteTitle,String userId);
+	
+	/**
+	 * 将笔记删除到回收站
+	 * @param noteId 笔记Id
+	 * @return JSON
+	 */
+	public NoteResult rallBackNote(String noteId);
+	
+	
+	/**
+	 * 从回收站删除笔记
+	 * @param noteId 笔记id
+	 * @return
+	 */
+	public NoteResult deleteNote(String noteId);
 }

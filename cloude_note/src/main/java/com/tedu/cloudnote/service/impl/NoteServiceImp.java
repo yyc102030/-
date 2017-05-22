@@ -131,4 +131,45 @@ public class NoteServiceImp implements NoteService{
 		return result;
 	}
 
+	
+	/**
+	 * 删除笔记实现类
+	 * @param noteId 笔记id
+	 * @return
+	 */
+	public NoteResult deleteNote(String noteId) {
+		NoteResult reult=new NoteResult();
+		int rows=notedao.deleteNote(noteId);
+		if(rows==0){
+			//删除成功
+			reult.setStatus(0);
+			reult.setMsg("删除笔记成功!");
+		}else{
+			reult.setStatus(1);
+			reult.setMsg("删除笔记失败!");
+		}
+		return reult;
+	}
+
+	
+	/**
+	 * 将笔记删除到回收站的实现类
+	 * @param noteId 笔记Id
+	 * @return JSON
+	 */
+	public NoteResult rallBackNote(String noteId) {
+		System.out.println("222222222");
+		NoteResult result=new NoteResult();
+		int rows=notedao.rallbackNote(noteId);
+		System.out.println("rows:"+rows);
+		if(rows==0){//删除失败
+			result.setStatus(1);
+			result.setMsg("删除失败!");
+		}else{
+			result.setStatus(0);
+			result.setMsg("删除成功！!");
+		}
+		return result;
+	}
+
 }

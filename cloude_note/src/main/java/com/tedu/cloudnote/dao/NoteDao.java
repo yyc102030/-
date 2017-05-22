@@ -16,7 +16,7 @@ import com.tedu.cloudnote.entity.Note;
 public interface NoteDao {
 	
 	/**
-	 * 根据笔记本的id，来查询笔记
+	 * 根据笔记本的id，来查询笔记，查询的，只是status=1的
 	 * @param id
 	 * @return 每一个笔记本下面的所有笔记
 	 */
@@ -42,4 +42,19 @@ public interface NoteDao {
 	 * @return 返回处理的结果
 	 */
 	public int addNote(Note note);
+	
+	/**
+	 * 删除笔记，将其让如回收站
+	 * 将note_status_id改为2
+	 * @param noteId 
+	 * @return 影响的记录条数
+	 */
+	public int rallbackNote(String noteId);
+	
+	/**
+	 * 删除笔记
+	 * @param noteId 想要删除的笔记的id
+	 * @return 被影响的记录
+	 */
+	public int deleteNote(String noteId);
 }

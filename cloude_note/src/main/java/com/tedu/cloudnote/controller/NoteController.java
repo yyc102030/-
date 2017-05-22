@@ -74,4 +74,30 @@ public class NoteController {
 		NoteResult result=noteservice.addNote(noteBookId, noteTitle, userId);
 		return result;	
 	};
+	
+	/**
+	 * 
+	 * 将笔记删除到回收站
+	 * @param noteId 笔记Id
+	 * @return JSON
+	 */
+	@RequestMapping("/rallbacknote.do")
+	@ResponseBody
+	public NoteResult rallBackNote(String noteId){
+		System.out.println("11111111111111");
+		NoteResult result=noteservice.rallBackNote(noteId);
+		return result;	
+	}
+	
+	/**
+	 * 删除笔记控制器
+	 * @param noteId
+	 * @return JSON数据
+	 */
+	@RequestMapping("/deletenote.do")
+	@ResponseBody
+	public NoteResult deleteNote(String noteId){
+		NoteResult result=noteservice.deleteNote(noteId);
+		return result;		
+	}
 }

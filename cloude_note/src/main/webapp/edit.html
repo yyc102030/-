@@ -47,32 +47,55 @@
     			//7.添加笔记本
     			$("#can").on("click","#addNoteBook",addNoteBook);
     			//8.添加笔记
-    				var $li;
-					var noteBookId;
 					//当笔记本没有选中时
 					//点击添加笔记时，会弹出提示框
 					$("#add_note").click(chooseAlert);
 					$("#can").on("click","#addnote",addNote);
-					var flag=1;//用来实现点击按钮弹出菜单，再点击关闭
+					var flag=1;
 				//9.实现笔记的管理菜单
 				$("#note_ul").on("click",".btn_slide_down",function(){
-					flag++;
-					//隐藏所有的笔记菜单
+					//隐藏所有笔记菜单
 					$("#note_ul div").hide();
-					 //设置点击笔记选中效果
-					/* $("note_ul a").removeClass("clicked");
-					$(this).parent().addClass("clicked"); */
-					//显示点击的笔记菜单
+					flag++;
 					if(flag%2==0){
+						//显示笔记管理菜单
 						var $menu=$(this).parent().next();
-						$menu.slideDown(1000);						
-						//阻止事件向li,body冒泡
-						return false;
-					}
+						$menu.slideDown(1000);
+					}					
+					//设置点击笔记选中效果
+					$("#note_ul a").removeClass("checked");
+					$(this).parent().addClass("checked");
+					//阻止事件向body,li冒泡
+					return false;
+				});
 				//10.点击页面隐藏笔记菜单
 				$("body").click(function(){
 					$("#note_ul div").hide();
 				});
+				$("#note_ul").on("click",".btn_delete",function(){
+					$("#can").load(
+					"alert/alert_delete_note.html");
+					$(".opacity_bg").show();
+					var $li=$("#note_ul a.checked").parent();
+					var noteId=$li.data("noteId");
+					console.log(noteId);
+					$("#can").on("click","#deleteNote",function(){
+						//获取请求参数
+						$.ajax({
+							url:"/cloude_note/note/rallbacknote.do",
+							type:"post",
+							data:{"noteId":noteId},
+							dataType:"json",
+							success:function(result){
+								if(result.status==0){
+									alert(result.msg);
+								}
+							},
+							error:function(){
+								alert("删除异常!请稍后再试");
+							}
+						});
+					});
 				});
     		});
     	</script>
@@ -126,8 +149,7 @@
 						<div class="chat-contact">
 							<div class="contact-body">
 								<ul id="notebooks" class="contacts-list">
-									<!-- 循环显示笔记本
-									
+									<!-- 循环显示笔记本									
 									<li class="online">
 									<a  class='checked'>
 									<i class="fa fa-book" title="online" rel="tooltip-bottom">
