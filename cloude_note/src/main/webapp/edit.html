@@ -84,30 +84,24 @@
 			    $(document).ready(  
 			    		//回车事件
 	                function() {  
-	                    $("#search_note").keydown(function(event) {  
-	                        if (event.keyCode == 13) {  
-	                        	var inValue=$("#search_note").val().trim();
-	                            $.ajax({
-	                            	url:"",
-	                            	type:"",
-	                            	data:{},
-	                            	dataType:"",
-	                            	success:function(result){
-	                            		
-	                            	},
-	                            	error:function(){
-	                            		alert("搜索异常");
-	                            	}
-	                            });
+	                    $("#search_note").keydown(function(event){  
+	                        if (event.keyCode == 13){
+	                        	searchNote();	             
 	                        }  
-	                    })  
+	                    });  
 	                }  
-	            );  
+	            );
+				//13.1当点击更多的时候，加载下一页内容
+				$(".contacts-list").on("click","#more_note",function(){
+					alert("sfsfsaf");
+				});
     		});
     	</script>
     </head>
     <body class="animated fadeIn">
         <header class="header">
+        <!-- 隐藏框，专门存放 start(分页查询的起始页)-->
+        	<input id="loadPageNum" type="hidden" value="1">
             <div class="header-brand">
                 <a data-pjax=".content-body" href="edit.html">
                     <img class="brand-logo" src="images/dummy/8986f28e.stilearn-logo.png" alt="Stilearn Admin Sample Logo">

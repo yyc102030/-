@@ -15,4 +15,10 @@
 	#{cn_note_id}
 	) 
  	</insert>
+ 	<!-- 搜索分享笔记 -->
+ 	<select id="searchNote" 
+ 		parameterType="map"
+ 		resultType="com.tedu.cloudnote.entity.ShareNote">
+ 		SELECT * FROM cn_share WHERE cn_share_title like #{inValue} limit ${start},${pagesize}
+ 	</select>
  </mapper>

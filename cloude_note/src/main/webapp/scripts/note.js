@@ -1,5 +1,63 @@
 //封装笔记相关的操作功能
 
+//搜索结果点击更多，显示下一页
+function searchLoadMore(){
+	//获取请求参数
+	
+}
+
+//搜索笔记
+function searchNote(){
+	//获取请求参数
+	var value=$("#search_note").val().trim();
+	var inValue="%"+value+"%";
+	var loadPageNum=$("#loadPageNum").val();
+	loadPageNum=parseInt(loadPageNum);	                   
+	var pagesize=5;
+	var start=(loadPageNum-1)*pagesize;
+    $.ajax({
+    	url:"/cloude_note/note/searchnote.do",
+    	type:"post",
+    	data:{"inValue":inValue,"start":start,"pagesize":pagesize},
+    	dataType:"json",
+    	success:function(result){
+    		if(result.status==0){
+    			$("#pc_part_2").hide();
+    			$("#pc_part_3").hide();
+    			$("#pc_part_6").show();
+    			$("#pc_part_5").show();
+    			console.log(result.data);
+    			var lis=result.data;                  
+    			console.log("shareNoteTitle:"+shareNoteTitle+",shareNoteId:"+shareNoteId);
+    			//清空上一次的搜索结果
+    			$(".contacts-list").html("");
+    			for(var i=0;i<lis.length;i++){
+    				var shareNoteTitle=lis[i].cn_share_title;
+        			var shareNoteId=lis[i].cn_share_id;
+    				var sli="";
+        			sli+="<li class='online'>";
+        			sli+="<a>"
+        			sli+="<i class='fa fa-file-text-o' title='online' rel='tooltip-bottom'></i>";
+        			sli+=""+shareNoteTitle;
+        			sli+="</a>"
+        			sli+="</li>"
+        			var $li=$(sli);
+					$li.data("shareNoteId",shareNoteId);
+					$(".contacts-list").append($li);
+    			}
+    			console.log("lis.length:"+lis.length);
+    			if(lis.length<=5){
+    				//当搜索的记录小于5条时，隐藏加载更多的按钮
+    				$("#more_note").hide();
+    			}
+    		}
+    	},
+    	error:function(){
+    		alert("搜索异常");
+    	}
+    });
+}
+
 //分享笔记
 function shareNote(){
 	//获取请求参数

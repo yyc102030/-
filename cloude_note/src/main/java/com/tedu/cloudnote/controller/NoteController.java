@@ -125,4 +125,19 @@ public class NoteController {
 		NoteResult result=noteservice.shareNote(noteId);
 		return result;	
 	}
+	
+	/**
+	 * 搜索笔记控制器
+	 * @param inValue 搜索笔记的标题名
+	 * @param start 分页查询的 起始页
+	 * @param pagesize 分页查询的 每页显示的条数
+	 * @return json
+	 */
+	@RequestMapping("/searchnote.do")
+	@ResponseBody
+	public NoteResult searchNote(String inValue,String start,String pagesize){
+		System.out.println("inValue:"+inValue+",start:"+start+",pagesize:"+pagesize);
+		NoteResult result=noteservice.searchNote(inValue, start, pagesize);
+		return result;		
+	}
 }

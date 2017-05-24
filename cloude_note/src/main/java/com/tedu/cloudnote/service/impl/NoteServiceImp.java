@@ -1,5 +1,6 @@
 package com.tedu.cloudnote.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -240,5 +241,29 @@ public class NoteServiceImp implements NoteService{
 		
 		return result;
 	}
-
+	
+	/**
+	 * 实现搜索笔记的功能
+	 * @param map 参数map，map里面是包括：分享笔记的title
+	 * @return JSON
+	 */
+	public NoteResult searchNote(String inValue,String start,String pagesize) {
+		NoteResult result=new NoteResult();
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("inValue", inValue);
+		map.put("start", start);
+		map.put("pagesize", pagesize);
+		List<ShareNote> list=sharenotedao.searchNote(map);
+		System.out.println("ShareNote:"+list);
+		if(list.isEmpty()){
+			//没有搜索到结果
+			result.setStatus(1);
+			result.setMsg("没有该关键词的笔记");
+		}else{
+			result.setStatus(0);
+			result.setMsg("搜索成功");
+			result.setData(list);
+		}
+		return result;
+	}
 }

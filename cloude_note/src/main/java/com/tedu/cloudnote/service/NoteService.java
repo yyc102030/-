@@ -71,4 +71,11 @@ public interface NoteService {
 	 * @return JSON
 	 */
 	public NoteResult shareNote(String noteId);
+	
+	/**
+	 * 
+	 * @param map 参数map，map里面是包括：分享笔记的title
+	 * @return JSON
+	 */
+	public NoteResult searchNote(String inValue,String start,String pagesize);
 }

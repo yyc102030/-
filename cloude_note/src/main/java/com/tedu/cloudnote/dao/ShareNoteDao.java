@@ -1,5 +1,8 @@
 package com.tedu.cloudnote.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.stereotype.Repository;
 
 import com.tedu.cloudnote.entity.ShareNote;
@@ -18,4 +21,11 @@ public interface ShareNoteDao {
 	 * @return 处理的结果
 	 */
 	public int saveNote(ShareNote sNote);
+	
+	/**
+	 * 搜索分享笔记功能
+	 * @param inValue 分享内容的
+	 * @return ShareNote 集合
+	 */
+	public List<ShareNote> searchNote(Map<String,Object> map);
 }

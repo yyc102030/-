@@ -3,7 +3,6 @@ package com.tedu.cloudnote.controller;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
