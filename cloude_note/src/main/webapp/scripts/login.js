@@ -28,7 +28,7 @@ function checkName(){
 	var name = $('#count').val();
 	var reg = /^\w{3,10}$/;
 	$('#count-msg').empty();
-	if(! reg.test(name)){
+	if(!reg.test(name)){
 		$('#count-msg').append("3~10个字符");
 		return false;
 	}
@@ -38,7 +38,7 @@ function checkPassword(){
 	var pwd = $('#password').val();
 	var reg = /^\w{3,10}$/;
 	$('#password-msg').empty();
-	if(! reg.test(pwd)){
+	if(!reg.test(pwd)){
 		$('#password-msg').append("3~10个字符");
 		return false;
 	}
@@ -73,10 +73,11 @@ function loginAction(){
 			//用于登录首页时查询笔记本的信息
 			addCookie("user_id",user_id,2);
 			addCookie("user_name",user_name,2);
+			$('#count-msg').html("登录成功");
 			location.href='edit.html';
 		}else{
 			//显示错误消息
-			var msg=result.message;
+			var msg=result.msg;
 			console.log(msg);
 			$('#count-msg').html(msg);
 		}

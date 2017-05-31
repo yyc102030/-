@@ -17,8 +17,23 @@
  	</insert>
  	<!-- 搜索分享笔记 -->
  	<select id="searchNote" 
+ 		parameterType="string"
+ 		resultType="com.tedu.cloudnote.entity.ShareNote">
+ 		SELECT * FROM cn_share WHERE cn_share_title like #{inValue}
+ 	</select>
+ 	<!-- 加载更过的搜索结果 -->
+ 	<select id="loadMore" 
  		parameterType="map"
  		resultType="com.tedu.cloudnote.entity.ShareNote">
  		SELECT * FROM cn_share WHERE cn_share_title like #{inValue} limit ${start},${pagesize}
+ 	</select>
+ 	<!-- 查询分享笔记的内容和标题 -->
+ 	<select id="loadShareNoteBody" 
+ 		parameterType="string"
+ 		resultType="com.tedu.cloudnote.entity.ShareNote">
+ 		SELECT cn_share_title, 
+ 			   cn_share_body
+ 		 FROM cn_share 
+ 		 WHERE cn_share_id=#{cn_share_id} 
  	</select>
  </mapper>

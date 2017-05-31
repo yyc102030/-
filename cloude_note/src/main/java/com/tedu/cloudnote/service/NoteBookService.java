@@ -23,4 +23,18 @@ public interface NoteBookService {
 	 * @return
 	 */
 	public NoteResult addNoteBook(String noteBookName,String user_id);
+	
+	/**
+	 * 删除笔记本
+	 * @param noteBookId
+	 * @return JSON
+	 */
+	public NoteResult deleteBook(String noteBookId);
+	
+	/**
+	 * 重命名笔记本
+	 * @param noteBookId
+	 * @return JSON
+	 */
+	public NoteResult renameBook(String noteBookId,String bookName);
 }

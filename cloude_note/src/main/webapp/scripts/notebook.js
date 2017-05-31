@@ -1,4 +1,38 @@
 /*notebook.js用来封装笔记本的相关处理*/
+
+//重命名笔记本
+
+
+//删除笔记本
+function deleteBook(){
+	$("#can").load(
+	"alert/alert_delete_notebook.html",function(){
+		//获取请求参数
+		var noteBookId=getCookie("noteBookId");
+		console.log("noteBookId:"+noteBookId);
+		$("#deleteBook").click(function(){
+			$.ajax({
+				url:"/cloude_note/notebook/deletebook.do",
+				type:"post",
+				data:{"noteBookId":noteBookId},
+				dataType:"json",
+				success:function(result){
+					if(result.status==0){
+						alert("删除成功!");
+						setTimeout(function(){
+							location.reload()
+						},2000);
+					}else{
+						alert("删除失败!");
+					}
+				},
+				error:function(){
+					alert("删除异常!");
+				}
+			});
+		});
+	});
+}
 //添加笔记
 function addNoteBook(){
 	//获取参数 noteBookName

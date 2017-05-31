@@ -25,7 +25,7 @@ public interface NoteDao {
 	/**
 	 * 根据笔记的id查询笔记的内容
 	 * @param noteId
-	 * @return 返回的Map中存放着note_body
+	 * @return 返回的Note
 	 */
 	public Note findNoteBody(String noteId);
 	
@@ -79,4 +79,17 @@ public interface NoteDao {
 	 * @return 处理的结果 1代表成功
 	 */
 	public int updateTypeId(String noteId);
+	
+	/**
+	 * 查询回收站的全部笔记
+	 * @return Note集合
+	 */
+	public List<Note> findAllNote();
+	
+	/**
+	 * 
+	 * @param noteId
+	 * @return json
+	 */
+	public int replayNote(String noteId);
 }

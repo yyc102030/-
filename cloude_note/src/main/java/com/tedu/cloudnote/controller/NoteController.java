@@ -129,15 +129,77 @@ public class NoteController {
 	/**
 	 * 搜索笔记控制器
 	 * @param inValue 搜索笔记的标题名
-	 * @param start 分页查询的 起始页
-	 * @param pagesize 分页查询的 每页显示的条数
 	 * @return json
 	 */
 	@RequestMapping("/searchnote.do")
 	@ResponseBody
-	public NoteResult searchNote(String inValue,String start,String pagesize){
-		System.out.println("inValue:"+inValue+",start:"+start+",pagesize:"+pagesize);
-		NoteResult result=noteservice.searchNote(inValue, start, pagesize);
+	public NoteResult searchNote(String inValue){
+		System.out.println("inValue:"+inValue);
+		NoteResult result=noteservice.searchNote(inValue);
+		return result;		
+	}
+	
+	/**
+	 * 加载更多搜索结果的控制器
+	 * @param inValue 搜索的值
+	 * @param start 开始的页数
+	 * @param pagesize 每页显示的数目
+	 * @return JSON
+	 */
+	@RequestMapping("/searchloadmore.do")
+	@ResponseBody
+	public NoteResult loadMore(String inValue, int start, int pagesize){
+		System.out.println("inValue:"+inValue+",start:"+start+",pagesize"+pagesize);
+		NoteResult result=noteservice.loadMore(inValue, start, pagesize);
+		return result;		
+	}
+	
+	/**
+	 * 点击搜索结果的li时，在预览笔记里面显示标题和内容
+	 * @param cn_share_id 
+	 * @return JSON
+	 * 
+	 */
+	@RequestMapping("/loadsharenotebody.do")
+	@ResponseBody
+	public NoteResult loadShareNoteBody(String shareNoteId){
+		NoteResult result=noteservice.loadShareNoteBody(shareNoteId);
+		return result;		
+	}
+	
+	/**
+	 * 回收站笔记查询
+	 * @return JSON
+	 */
+	@RequestMapping("/rallback.do")
+	@ResponseBody
+	public NoteResult loadRallBack(){
+		NoteResult result=noteservice.loadRallBack();
+		return result;		
+	};
+	
+	/**
+	 * 点击回收站笔记列表时，在预览笔记模块显示body和title
+	 * 控制器
+	 * @param noteId 笔记id
+	 * @return JSON
+	 */
+	@RequestMapping("/loadrallbacknotebody.do")
+	@ResponseBody
+	public NoteResult LoadRallBackNoteBody(String noteId){
+		NoteResult result=noteservice.LoadRallBackNoteBody(noteId);
+		return result;		
+	};
+	
+	/**
+	 * 恢复回收站的笔记
+	 * @param noteId
+	 * @return JSON
+	 */
+	@RequestMapping("/replaynote.do")
+	@ResponseBody
+	public NoteResult replayNote(String noteId){
+		NoteResult result=noteservice.replayNote(noteId);
 		return result;		
 	}
 }

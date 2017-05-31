@@ -1,6 +1,9 @@
 package com.tedu.cloudnote.service.impl;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 
@@ -65,7 +68,7 @@ public class UserServiceImp implements UserService{
 		}else{
 			try {
 				user=new User();
-				user.setCn_user_id(String.valueOf(System.currentTimeMillis()));
+				user.setCn_user_id(UUID.randomUUID().toString());
 				user.setCn_user_name(name);
 				user.setCn_user_nick(nick);
 				String md5_pwd=NoteUtil.md5(password);
@@ -82,6 +85,62 @@ public class UserServiceImp implements UserService{
 			return result;
 		}
 		
+	}
+
+	/**
+	 * 验证密码，根据userId查询
+	 * @param userId
+	 * @return json
+	 */
+	public NoteResult changePwd(String userId,String lastPwd) {
+		NoteResult result=new NoteResult();
+		User user=userDao.changePwd(userId);
+		try {
+				String pwd=user.getCn_user_password();
+				String oldPwd=NoteUtil.md5(lastPwd);
+				if(pwd.equals(oldPwd)){
+					result.setStatus(0);
+					result.setMsg("原始密码输入正确");
+				}else{
+					result.setStatus(1);
+					result.setMsg("原始密码输入错误");
+				}
+			} catch (NoSuchAlgorithmException e) {
+				throw new NoteException("系统错误",e);
+			}	
+		
+		return result;
+	}
+
+	/**
+	 * 修改密码
+	 * @param userId
+	 * @param newPwd
+	 * @return JSON
+	 */
+	public NoteResult modifyPwd(String userId, String newPwd1) {
+		System.out.println("userId:"+userId+",newPwd1:"+newPwd1);
+		NoteResult result=new NoteResult();
+		String newPwd="";
+		try {
+			newPwd = NoteUtil.md5(newPwd1);
+			System.out.println("newPwd:"+newPwd);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("userId", userId);
+		map.put("newPwd", newPwd);
+		int rows=userDao.modifyPwd(map);
+		if(rows!=0){
+			//修改密码成功
+			result.setStatus(0);
+			result.setMsg("修改密码成功");
+		}else{
+			result.setStatus(1);
+			result.setMsg("修改密码失败");
+		}
+		return result;
 	}
 
 }

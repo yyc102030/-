@@ -34,4 +34,15 @@
 				) 
 	</insert>
 	
+	<!-- 删除笔记本 -->
+	<delete id="deleteBook"
+		parameterType="string">
+		delete from cn_notebook where cn_notebook_id= #{cn_notebook_id} 
+	</delete>
+	
+	<!-- 重命名笔记本 -->
+	<update id="renameBook"
+		parameterType="map">
+		update cn_notebook set cn_notebook_name=#{bookName} where cn_notebook_id=#{noteBookId}
+	</update>
  </mapper>

@@ -24,7 +24,7 @@ public class NoteUtil {
 	}
 	
 	public static void main(String[] args) throws NoSuchAlgorithmException {
-		System.out.println(md5("123456"));
+		System.out.println(md5("102030"));
 		System.out.println(md5("123sdfdfd"));
 	}
 }

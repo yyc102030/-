@@ -46,4 +46,30 @@ public class UserController {
 			NoteResult result=userservice.regist(name, nick, password);		
 			return result;		
 	}
+	
+	/**
+	 * 验证旧密码
+	 * @param userId
+	 * @param lastPwd
+	 * @return JSON
+	 */
+	@RequestMapping("/checklastpwd.do")
+	@ResponseBody
+	public NoteResult changePwd(String userId ,String lastPwd){
+		NoteResult result=userservice.changePwd(userId, lastPwd);
+		return result;		
+	}
+	
+	/**
+	 * 修改密码控制器
+	 * @param userId
+	 * @param newPwd
+	 * @return JSON
+	 */
+	@RequestMapping("/modifypwd.do")
+	@ResponseBody
+	public NoteResult modifyPwd(String userId, String newPwd){
+		NoteResult result=userservice.modifyPwd(userId, newPwd);
+		return result;		
+	}
 }

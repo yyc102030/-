@@ -1,6 +1,7 @@
 package com.tedu.cloudnote.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -27,4 +28,18 @@ public interface NoteBookDao {
 	 * @return 返回增加的结果 1 表示成功
 	 */
 	public int addNoteBook(NoteBook noteBook);
+	
+	/**
+	 * 删除笔记本
+	 * @param noteBookId
+	 * @return 处理结果集
+	 */
+	public int deleteBook(String noteBookId);
+	
+	/**
+	 * 更改笔记本的名字
+	 * @param noteBookId
+	 * @return 处理结果集
+	 */
+	public int renameBook(Map<String,Object> map);
 }

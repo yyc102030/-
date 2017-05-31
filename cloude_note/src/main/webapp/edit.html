@@ -86,14 +86,61 @@
 	                function() {  
 	                    $("#search_note").keydown(function(event){  
 	                        if (event.keyCode == 13){
-	                        	searchNote();	             
+	                        	searchNote();	  	                        	
 	                        }  
 	                    });  
 	                }  
 	            );
 				//13.1当点击更多的时候，加载下一页内容
-				$(".contacts-list").on("click","#more_note",function(){
-					alert("sfsfsaf");
+				$("#pc_part_6").on("click","#more_note",searchLoadMore);
+				//14 点击搜索结果的笔记列表，在预览笔记页面显示
+				$("#pc_part_6").on("click","li",loadShareNoteBody);
+				//15.回收站笔记实现
+				$("#rollback_button").click(loadRallBackNotes);
+				//16.点击回收站笔记时，在预览笔记模块里，显示内容和标题
+				$("#rallBackNotes").on("click","li",LoadRallBackNoteBody);
+				//17.实现回收站笔记的删除
+				$("#rallBackNotes").on("click",".btn_delete",deleteRallBackNote);
+				//18.实现回收站笔记的恢复
+				$("#rallBackNotes").on("click",".btn_replay",replayRallBackNote);
+				//19.修改密码
+				//20.笔记本的删除,双击笔记本删除笔记本
+				$("#notebooks").on("dblclick","li",deleteBook);   
+				//21.笔记本的重命名,右键重命名笔记本
+				$("#notebooks").on("mousedown","li",function(e){
+					if(3 == e.which){
+						$("#can").load(
+						"alert/alert_rename.html",function(){
+							var noteBookId=getCookie("noteBookId");
+							console.log("noteBookId:"+noteBookId);
+							$("#ranameBook").click(function(){
+								var bookName=$("#input_notebook_rename").val();
+								console.log("bookName:"+bookName);
+								$.ajax({
+									url:"/cloude_note/notebook/renamebook.do",
+									type:"post",
+									data:{"noteBookId":noteBookId,"bookName":bookName},
+									dataType:"json",
+									success:function(result){
+										if(result.status==0){
+											//重命名成功
+											alert("重命名成功");
+											setTimeout(function(){
+												location.reload()
+											},2000);
+										}else{
+											alert("重命名失败")
+										}
+									},
+									error:function(){
+										alert("重命名异常");
+									}
+								});
+							});
+							
+						});
+						$(".opacity_bg").show();
+			         }
 				});
     		});
     	</script>
@@ -206,8 +253,8 @@
 					<div class="module" data-toggle="niceScroll">
 						<div class="chat-contact">
 							<div class="contact-body">
-								<ul class="contacts-list">
-									<li class="disable"><a ><i class="fa fa-file-text-o" title="online" rel="tooltip-bottom"></i> 虚假回收站笔记<button type="button" class="btn btn-default btn-xs btn_position btn_delete"><i class="fa fa-times"></i></button><button type="button" class="btn btn-default btn-xs btn_position_2 btn_replay"><i class="fa fa-reply"></i></button></a></li>
+								<ul id="rallBackNotes" class="contacts-list">
+									<!-- <li class="disable"><a ><i class="fa fa-file-text-o" title="online" rel="tooltip-bottom"></i> 虚假回收站笔记<button type="button" class="btn btn-default btn-xs btn_position btn_delete"><i class="fa fa-times"></i></button><button type="button" class="btn btn-default btn-xs btn_position_2 btn_replay"><i class="fa fa-reply"></i></button></a></li> -->
 								</ul>
 							</div>
 						</div>
@@ -224,7 +271,7 @@
 					<div class="module" data-toggle="niceScroll">
 						<div class="chat-contact">
 							<div class="contact-body">
-								<ul class="contacts-list">
+								<ul id="seachnotes" class="contacts-list">
 								</ul>
 							</div>
 						</div>
@@ -322,8 +369,7 @@
 						<div class="chat-contact">
 							<div class="contact-body clear_margin">
 								<h4 id="noput_note_title"></h4>
-								<p>
-								</p>
+								<p id="noput_note_body"></p>
 							</div>
 						</div>
 					</div>

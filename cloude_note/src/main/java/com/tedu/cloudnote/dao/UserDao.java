@@ -1,5 +1,7 @@
 package com.tedu.cloudnote.dao;
 
+import java.util.Map;
+
 import org.springframework.stereotype.Repository;
 
 import com.tedu.cloudnote.entity.User;
@@ -21,4 +23,19 @@ public interface UserDao {
 	 * @return 更新数据行数, 返回1表示更新成功
 	 */
 	public int saveUser(User user);
+	
+	/**
+	 * 验证旧密码
+	 * @param userId
+	 * @return 执行的结果
+	 */
+	public User changePwd(String userId);
+	
+	/**
+	 * 修改密码
+	 * @param userId
+	 * @param newPwd
+	 * @return 处理结果集
+	 */
+	public int modifyPwd(Map<String,Object> map);
 }

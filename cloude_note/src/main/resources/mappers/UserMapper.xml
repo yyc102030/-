@@ -27,4 +27,16 @@
 			#{cn_user_nick}
 		) 
 	</insert>	
+	<!-- 验证旧密码是否正确 -->
+	<select id="changePwd"
+		parameterType="string"
+		resultType="com.tedu.cloudnote.entity.User">
+		select * from cn_user where cn_user_id=#{cn_user_id}
+	</select>
+	
+	<!-- 修改密码 -->
+	<update id="modifyPwd"
+		parameterType="map">
+		update  cn_user set cn_user_password=#{newPwd} where cn_user_id = #{userId}
+	</update>
  </mapper>

@@ -50,4 +50,30 @@ public class NoteBookController {
 		NoteResult result=notebookservice.addNoteBook(noteBookName, user_id);
 		return result;	
 	}
+	
+	/**
+	 * 删除笔记本
+	 * @param noteBookId
+	 * @return JSON
+	 */
+	@RequestMapping("/deletebook.do")
+	@ResponseBody
+	public NoteResult deleteBook(String noteBookId){
+		System.out.println("noteBookId:"+noteBookId);
+		NoteResult result=notebookservice.deleteBook(noteBookId);
+		return result;		
+	}
+	
+	/**
+	 * 重命名笔记本
+	 * @param noteBookId
+	 * @param bookName
+	 * @return JSON
+	 */
+	@RequestMapping("/renamebook.do")
+	@ResponseBody
+	public NoteResult rename(String noteBookId,String bookName){
+		NoteResult result=notebookservice.renameBook(noteBookId, bookName);
+		return result;	
+	}
 }

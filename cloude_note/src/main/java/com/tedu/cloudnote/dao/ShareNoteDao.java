@@ -27,5 +27,19 @@ public interface ShareNoteDao {
 	 * @param inValue 分享内容的
 	 * @return ShareNote 集合
 	 */
-	public List<ShareNote> searchNote(Map<String,Object> map);
+	public List<ShareNote> searchNote(String inValue);
+	
+	/**
+	 * 加载更过搜索功能
+	 * @param map
+	 * @return ShareNote 集合
+	 */
+	public List<ShareNote> loadMore(Map<String,Object> map);
+	
+	/**
+	 * 加载预览笔记的内容
+	 * @param cn_share_id 分享笔记的id
+	 * @return 分享笔记的标题和分享笔记的内容
+	 */
+	public ShareNote loadShareNoteBody(String cn_share_id);
 }

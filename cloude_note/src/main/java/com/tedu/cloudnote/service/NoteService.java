@@ -77,5 +77,41 @@ public interface NoteService {
 	 * @param map 参数map，map里面是包括：分享笔记的title
 	 * @return JSON
 	 */
-	public NoteResult searchNote(String inValue,String start,String pagesize);
+	public NoteResult searchNote(String inValue);
+	
+	/**
+	 * 加载更过笔记
+	 * @param inValue 搜索的值
+	 * @param start 其实页
+	 * @param pagesize 每页显示的数目
+	 * @return JSON
+	 */
+	public NoteResult loadMore(String inValue, int start, int pagesize);
+	
+	/**
+	 * 显示搜索列表笔记的标题和内容
+	 * @param cn_share_id
+	 * @return JSON
+	 */
+	public NoteResult loadShareNoteBody(String cn_share_id);
+	
+	/**
+	 * 查询回收站笔记
+	 * @return note笔记集合
+	 */
+	public NoteResult loadRallBack();
+	
+	/**
+	 * 在预览笔记模块显示回收站笔记的body和id
+	 * @param noteId
+	 * @return JSON
+	 */
+	public NoteResult LoadRallBackNoteBody(String noteId);
+	
+	/**
+	 * 恢复回收站笔记
+	 * @param noteId
+	 * @return JSON
+	 */
+	public NoteResult replayNote(String noteId);
 }

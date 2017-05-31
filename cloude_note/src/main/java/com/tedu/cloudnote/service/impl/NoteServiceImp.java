@@ -151,7 +151,7 @@ public class NoteServiceImp implements NoteService{
 	public NoteResult deleteNote(String noteId) {
 		NoteResult reult=new NoteResult();
 		int rows=notedao.deleteNote(noteId);
-		if(rows==0){
+		if(rows!=0){
 			//删除成功
 			reult.setStatus(0);
 			reult.setMsg("删除笔记成功!");
@@ -247,13 +247,9 @@ public class NoteServiceImp implements NoteService{
 	 * @param map 参数map，map里面是包括：分享笔记的title
 	 * @return JSON
 	 */
-	public NoteResult searchNote(String inValue,String start,String pagesize) {
+	public NoteResult searchNote(String inValue) {
 		NoteResult result=new NoteResult();
-		Map<String,Object> map=new HashMap<String, Object>();
-		map.put("inValue", inValue);
-		map.put("start", start);
-		map.put("pagesize", pagesize);
-		List<ShareNote> list=sharenotedao.searchNote(map);
+		List<ShareNote> list=sharenotedao.searchNote(inValue);
 		System.out.println("ShareNote:"+list);
 		if(list.isEmpty()){
 			//没有搜索到结果
@@ -263,6 +259,112 @@ public class NoteServiceImp implements NoteService{
 			result.setStatus(0);
 			result.setMsg("搜索成功");
 			result.setData(list);
+		}
+		return result;
+	}
+	
+	/**
+	 * 加载更过笔记
+	 * @param inValue 搜索的值
+	 * @param start 其实页
+	 * @param pagesize 每页显示的数目
+	 * @return JSON
+	 */
+	public NoteResult loadMore(String inValue, int start, int pagesize) {
+		NoteResult result=new NoteResult();
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("inValue", inValue);
+		map.put("start", start);
+		map.put("pagesize", pagesize);
+		List<ShareNote> list=sharenotedao.loadMore(map);
+		if(list.isEmpty()){
+			//没有更多的结果了
+			result.setStatus(1);
+			result.setMsg("没有更多结果了");			
+		}else{
+			result.setStatus(0);
+			result.setMsg("又加载了一页"); 	
+			result.setData(list);
+		}
+		return result;
+	}
+	
+	/**
+	 * 显示搜索列表笔记的标题和内容
+	 * @param cn_share_id
+	 * @return JSON
+	 */
+	public NoteResult loadShareNoteBody(String cn_share_id) {
+		NoteResult result=new NoteResult();
+		ShareNote shareNote=sharenotedao.loadShareNoteBody(cn_share_id);
+		System.out.println("cn_share_id:"+cn_share_id+",shareNote:"+shareNote);
+		if(shareNote==null){
+			//查询失败
+			result.setStatus(1);
+			result.setMsg("查询出错！");
+		}else{
+			result.setStatus(0);
+			result.setMsg("查询成功！");
+			result.setData(shareNote);
+		}
+		return result;
+	}
+
+	/**
+	 * 查询回收站笔记
+	 * @return note笔记集合
+	 */
+	public NoteResult loadRallBack() {
+		NoteResult result=new NoteResult();
+		List<Note> list=notedao.findAllNote();
+		if(list.isEmpty()){//回收站为空
+			result.setStatus(1);
+			result.setMsg("回收站为空");
+		}else{
+			result.setStatus(0);
+			result.setMsg("查询成功");
+			result.setData(list);
+		}
+		return result;
+	}
+
+	/**
+	 * 在预览笔记模块显示回收站笔记的body和id
+	 * @param noteId
+	 * @return JSON
+	 */
+	public NoteResult LoadRallBackNoteBody(String noteId) {
+		Note note=
+				notedao.findNoteBody(noteId);
+		System.out.println("note:"+note);
+		NoteResult result=new NoteResult();
+		if(note==null){
+			//如果内容为空
+			result.setStatus(1);
+			result.setMsg("该笔记还没有添加任何内容");
+		}else{
+			//笔记有内容
+			result.setStatus(0);
+			result.setMsg("查询成功");
+			result.setData(note);
+		}
+		return result;
+	}
+
+	/**
+	 * 恢复回收站笔记
+	 * @param noteId
+	 * @return JSON
+	 */
+	public NoteResult replayNote(String noteId) {
+		NoteResult result=new NoteResult();
+		int rows=notedao.replayNote(noteId);
+		if(rows!=0){//恢复成功
+			result.setStatus(0);
+			result.setMsg("回复成功！");
+		}else{
+			result.setStatus(1);
+			result.setMsg("回复失败！");
 		}
 		return result;
 	}

@@ -2,8 +2,9 @@ package com.tedu.cloudnote.service.impl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -72,6 +73,48 @@ public class NoteBookServiceImp implements NoteBookService{
 		}else{
 			result.setStatus(1);
 			result.setMsg("添加笔记本失败");
+		}
+		return result;
+	}
+
+	/**
+	 * 删除笔记本
+	 * @param noteBookId
+	 * @return JSON
+	 */
+	public NoteResult deleteBook(String noteBookId) {
+		System.out.println("noteBookId111:"+noteBookId);
+		NoteResult result=new NoteResult();
+		int rows=notebookdao.deleteBook(noteBookId);
+		if(rows!=0){
+			//删除成功
+			result.setStatus(0);
+			result.setMsg("删除成功");
+		}else{
+			result.setStatus(1);
+			result.setMsg("删除失败");
+		}
+		return result;
+	}
+
+	/**
+	 * 重命名笔记本
+	 * @param noteBookId
+	 * @return JSON
+	 */
+	public NoteResult renameBook(String noteBookId,String bookName) {
+		NoteResult result=new NoteResult();
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("noteBookId", noteBookId);
+		map.put("bookName", bookName);
+		int rows=notebookdao.renameBook(map);
+		if(rows!=0){
+			//改名成功
+			result.setStatus(0);
+			result.setMsg("改名成功");
+		}else{
+			result.setStatus(1);
+			result.setMsg("改名失败");
 		}
 		return result;
 	}
